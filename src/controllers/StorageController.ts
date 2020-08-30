@@ -73,6 +73,18 @@ class StorageController {
       total,
     });
   }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { storage } = request.body;
+
+    const userId: number = await knex('users')
+      .where('id', request.user.id)
+      .update({ storage });
+
+    const user: User = await knex('users').where('id', userId).first();
+
+    return response.status(200).json(user);
+  }
 }
 
 export default StorageController;

@@ -39,6 +39,7 @@ routes.post('/uploads', uploadsController.store);
 
 // Storage
 routes.get('/storage', storageController.index);
+routes.patch('/storage', storageController.update);
 
 // Password
 routes.patch('/password', passwordControlller.update);
