@@ -1,8 +1,22 @@
 import { Request, Response } from 'express';
 
+import Upload from '../database/interfaces/Upload';
+
 import knex from '../database/connection';
 
 class UploadsController {
+  public async index(request: Request, response: Response): Promise<Response> {
+    const { folder_id } = request.query as { folder_id: string };
+
+    const uploads: Upload[] = await knex('uploads')
+      .join('folders_uploads', 'uploads.id', '=', 'folders_uploads.upload_id')
+      .where('folders_uploads.user_id', request.user.id)
+      .where('folders_uploads.folder_id', folder_id)
+      .select('uploads.*');
+
+    return response.status(200).json(uploads);
+  }
+
   public async store(request: Request, response: Response): Promise<Response> {
     const { name, folder_id, type, size } = request.body;
 
