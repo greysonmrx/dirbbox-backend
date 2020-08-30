@@ -5,6 +5,7 @@ import SessionsController from './controllers/SessionsController';
 import FoldersController from './controllers/FoldersController';
 import UploadsController from './controllers/UploadsController';
 import StorageController from './controllers/StorageController';
+import PasswordController from './controllers/PasswordController';
 
 import ensureAuthenticated from './middleware/ensureAuthenticated';
 
@@ -14,6 +15,7 @@ const sessionsController = new SessionsController();
 const foldersController = new FoldersController();
 const uploadsController = new UploadsController();
 const storageController = new StorageController();
+const passwordControlller = new PasswordController();
 
 // Users
 routes.post('/users', usersController.store);
@@ -37,5 +39,8 @@ routes.post('/uploads', uploadsController.store);
 
 // Storage
 routes.get('/storage', storageController.index);
+
+// Password
+routes.patch('/password', passwordControlller.update);
 
 export default routes;
