@@ -1,8 +1,22 @@
 import { Request, Response } from 'express';
 
+import Folder from '../database/interfaces/Folder';
+
 import knex from '../database/connection';
 
 class FoldersController {
+  public async index(request: Request, response: Response): Promise<Response> {
+    const { limit } = request.query as { limit: string };
+
+    const folders: Folder[] = await knex('folders')
+      .join('folders_users', 'folders.id', '=', 'folders_users.folder_id')
+      .where('folders_users.user_id', request.user.id)
+      .select('folders.*')
+      .limit(parseInt(limit, 10) || 100);
+
+    return response.status(200).json(folders);
+  }
+
   public async store(request: Request, response: Response): Promise<Response> {
     const { name, color } = request.body;
 

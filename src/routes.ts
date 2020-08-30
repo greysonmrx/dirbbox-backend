@@ -22,6 +22,7 @@ routes.post('/sessions', sessionsController.store);
 routes.use(ensureAuthenticated);
 
 // Folders
+routes.get('/folders', foldersController.index);
 routes.post('/folders', foldersController.store);
 
 // Uploads
