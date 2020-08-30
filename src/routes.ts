@@ -4,6 +4,7 @@ import UsersController from './controllers/UsersController';
 import SessionsController from './controllers/SessionsController';
 import FoldersController from './controllers/FoldersController';
 import UploadsController from './controllers/UploadsController';
+import StorageController from './controllers/StorageController';
 
 import ensureAuthenticated from './middleware/ensureAuthenticated';
 
@@ -12,6 +13,7 @@ const usersController = new UsersController();
 const sessionsController = new SessionsController();
 const foldersController = new FoldersController();
 const uploadsController = new UploadsController();
+const storageController = new StorageController();
 
 // Users
 routes.post('/users', usersController.store);
@@ -29,5 +31,8 @@ routes.post('/folders', foldersController.store);
 routes.get('/uploads/:limit', uploadsController.show);
 routes.get('/uploads', uploadsController.index);
 routes.post('/uploads', uploadsController.store);
+
+// Storage
+routes.get('/storage', storageController.index);
 
 export default routes;
