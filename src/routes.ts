@@ -23,6 +23,9 @@ routes.post('/sessions', sessionsController.store);
 
 routes.use(ensureAuthenticated);
 
+// Users
+routes.put('/users', usersController.update);
+
 // Folders
 routes.get('/folders', foldersController.index);
 routes.post('/folders', foldersController.store);
