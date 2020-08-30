@@ -26,6 +26,7 @@ routes.get('/folders', foldersController.index);
 routes.post('/folders', foldersController.store);
 
 // Uploads
+routes.get('/uploads/:limit', uploadsController.show);
 routes.get('/uploads', uploadsController.index);
 routes.post('/uploads', uploadsController.store);
 

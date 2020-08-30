@@ -5,6 +5,18 @@ import Upload from '../database/interfaces/Upload';
 import knex from '../database/connection';
 
 class UploadsController {
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { limit } = request.params as { limit: string };
+
+    const uploads: Upload[] = await knex('uploads')
+      .join('folders_uploads', 'uploads.id', '=', 'folders_uploads.upload_id')
+      .where('folders_uploads.user_id', request.user.id)
+      .select('uploads.*')
+      .limit(parseInt(limit, 10) || 100);
+
+    return response.status(200).json(uploads);
+  }
+
   public async index(request: Request, response: Response): Promise<Response> {
     const { folder_id } = request.query as { folder_id: string };
 
