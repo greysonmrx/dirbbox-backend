@@ -1,3 +1,4 @@
+import multer from 'multer';
 import { Router } from 'express';
 
 import UsersController from './controllers/UsersController';
@@ -12,7 +13,11 @@ import UserUpdateValidator from './validators/users/UpdateValidator';
 
 import ensureAuthenticated from './middleware/ensureAuthenticated';
 
+import multerConfig from './config/multer';
+
 const routes = Router();
+const upload = multer(multerConfig);
+
 const usersController = new UsersController();
 const sessionsController = new SessionsController();
 const foldersController = new FoldersController();
@@ -38,7 +43,7 @@ routes.post('/folders', foldersController.store);
 // Uploads
 routes.get('/uploads/:limit', uploadsController.show);
 routes.get('/uploads', uploadsController.index);
-routes.post('/uploads', uploadsController.store);
+routes.post('/uploads', upload.single('file'), uploadsController.store);
 
 // Storage
 routes.get('/storage', storageController.index);

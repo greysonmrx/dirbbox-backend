@@ -4,4 +4,7 @@ build/
 
 database.sqlite
 
+tmp/uploads/*
+!tmp/uploads/.gitkeep
+
 .env

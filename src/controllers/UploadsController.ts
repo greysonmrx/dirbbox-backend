@@ -12,7 +12,7 @@ class UploadsController {
       .join('folders_uploads', 'uploads.id', '=', 'folders_uploads.upload_id')
       .where('folders_uploads.user_id', request.user.id)
       .select('uploads.*')
-      .limit(parseInt(limit, 10) || 100);
+      .limit(parseInt(limit, 10));
 
     return response.status(200).json(uploads);
   }
@@ -30,7 +30,8 @@ class UploadsController {
   }
 
   public async store(request: Request, response: Response): Promise<Response> {
-    const { name, folder_id, type, size } = request.body;
+    const { folder_id } = request.body;
+    const { originalname: name, size } = request.file;
 
     const folder = await knex('folders').where('id', folder_id).first();
 
@@ -41,6 +42,8 @@ class UploadsController {
     }
 
     const trx = await knex.transaction();
+
+    const type = name.split('.')[1];
 
     const insertedIds = await trx('uploads').insert({
       name,
