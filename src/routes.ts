@@ -12,6 +12,7 @@ import UserStoreValidator from './validators/users/StoreValidator';
 import UserUpdateValidator from './validators/users/UpdateValidator';
 import UploadShowValidator from './validators/uploads/ShowValidator';
 import UploadIndexValidator from './validators/uploads/IndexValidator';
+import UploadUpdateValidator from './validators/uploads/UpdateValidator';
 import StorageUpdateValidator from './validators/storage/UpdateValidator';
 import SessionStoreValidator from './validators/sessions/StoreValidator';
 import PasswordUpdateValidator from './validators/passwords/UpdateValidator';
@@ -52,6 +53,7 @@ routes.put('/folders/:id', FolderUpdateValidator, foldersController.update);
 routes.get('/uploads/:limit', UploadShowValidator, uploadsController.show);
 routes.get('/uploads', UploadIndexValidator, uploadsController.index);
 routes.post('/uploads', upload.single('file'), uploadsController.store);
+routes.patch('/uploads/:id', UploadUpdateValidator, uploadsController.update);
 
 // Storage
 routes.get('/storage', storageController.index);

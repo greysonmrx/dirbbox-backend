@@ -64,6 +64,25 @@ class UploadsController {
 
     return response.status(201).json({ success: true });
   }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const { name } = request.body;
+
+    const uploadExists = await knex('uploads').where('id', id).first();
+
+    if (!uploadExists) {
+      return response.status(404).json({
+        message: 'Arquivo não encontrado.',
+      });
+    }
+
+    await knex('uploads').where('id', id).update({ name });
+
+    const upload = await knex('uploads').where('id', id).first();
+
+    return response.status(200).json(upload);
+  }
 }
 
 export default UploadsController;
