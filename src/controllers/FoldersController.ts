@@ -52,6 +52,38 @@ class FoldersController {
 
     return response.status(201).json({ success: true });
   }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const { name, color } = request.body;
+
+    const folderExists = await knex('folders').where('id', id).first();
+
+    if (!folderExists) {
+      return response.status(404).json({
+        message: 'Pasta não encontrada.',
+      });
+    }
+
+    const folderExistsWithName: Folder = await knex('folders')
+      .where('name', name)
+      .first();
+
+    if (folderExistsWithName && String(folderExistsWithName.id) !== id) {
+      return response.status(400).json({
+        message: 'Esta pasta já existe.',
+      });
+    }
+
+    await knex('folders').where('id', id).update({
+      name,
+      color,
+    });
+
+    const folder = await knex('folders').where('id', id).first();
+
+    return response.status(200).json(folder);
+  }
 }
 
 export default FoldersController;
