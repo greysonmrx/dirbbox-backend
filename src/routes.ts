@@ -13,6 +13,7 @@ import UserUpdateValidator from './validators/users/UpdateValidator';
 import UploadShowValidator from './validators/uploads/ShowValidator';
 import UploadIndexValidator from './validators/uploads/IndexValidator';
 import StorageUpdateValidator from './validators/storage/UpdateValidator';
+import SessionStoreValidator from './validators/sessions/StoreValidator';
 
 import ensureAuthenticated from './middleware/ensureAuthenticated';
 
@@ -32,7 +33,7 @@ const passwordControlller = new PasswordController();
 routes.post('/users', UserStoreValidator, usersController.store);
 
 // Sessions
-routes.post('/sessions', sessionsController.store);
+routes.post('/sessions', SessionStoreValidator, sessionsController.store);
 
 routes.use(ensureAuthenticated);
 
