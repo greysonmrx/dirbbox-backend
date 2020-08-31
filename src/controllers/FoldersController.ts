@@ -6,11 +6,15 @@ import knex from '../database/connection';
 
 class FoldersController {
   public async index(request: Request, response: Response): Promise<Response> {
-    const { limit } = request.query as { limit: string };
+    const { limit, search } = request.query as {
+      limit: string;
+      search: string;
+    };
 
     const folders: Folder[] = await knex('folders')
       .join('folders_users', 'folders.id', '=', 'folders_users.folder_id')
       .where('folders_users.user_id', request.user.id)
+      .where('folders.name', 'like', `${search || ''}%`)
       .select('folders.*')
       .limit(parseInt(limit, 10) || 100);
 
