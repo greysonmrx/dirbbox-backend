@@ -14,6 +14,7 @@ import UploadShowValidator from './validators/uploads/ShowValidator';
 import UploadIndexValidator from './validators/uploads/IndexValidator';
 import StorageUpdateValidator from './validators/storage/UpdateValidator';
 import SessionStoreValidator from './validators/sessions/StoreValidator';
+import PasswordUpdateValidator from './validators/passwords/UpdateValidator';
 
 import ensureAuthenticated from './middleware/ensureAuthenticated';
 
@@ -54,6 +55,6 @@ routes.get('/storage', storageController.index);
 routes.patch('/storage', StorageUpdateValidator, storageController.update);
 
 // Password
-routes.patch('/password', passwordControlller.update);
+routes.patch('/password', PasswordUpdateValidator, passwordControlller.update);
 
 export default routes;
