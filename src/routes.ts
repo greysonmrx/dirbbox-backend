@@ -15,6 +15,7 @@ import UploadIndexValidator from './validators/uploads/IndexValidator';
 import StorageUpdateValidator from './validators/storage/UpdateValidator';
 import SessionStoreValidator from './validators/sessions/StoreValidator';
 import PasswordUpdateValidator from './validators/passwords/UpdateValidator';
+import FolderStoreValidator from './validators/folders/StoreValidator';
 
 import ensureAuthenticated from './middleware/ensureAuthenticated';
 
@@ -43,7 +44,7 @@ routes.put('/users', UserUpdateValidator, usersController.update);
 
 // Folders
 routes.get('/folders', foldersController.index);
-routes.post('/folders', foldersController.store);
+routes.post('/folders', FolderStoreValidator, foldersController.store);
 
 // Uploads
 routes.get('/uploads/:limit', UploadShowValidator, uploadsController.show);
