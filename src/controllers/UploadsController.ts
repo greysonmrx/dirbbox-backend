@@ -83,6 +83,25 @@ class UploadsController {
 
     return response.status(200).json(upload);
   }
+
+  public async destroy(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const uploadExists = await knex('uploads').where('id', id).first();
+
+    if (!uploadExists) {
+      return response.status(404).json({
+        message: 'Arquivo não encontrado.',
+      });
+    }
+
+    await knex('uploads').where('id', id).del();
+
+    return response.status(204).json();
+  }
 }
 
 export default UploadsController;

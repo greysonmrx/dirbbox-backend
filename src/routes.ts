@@ -55,6 +55,7 @@ routes.get('/uploads/:limit', UploadShowValidator, uploadsController.show);
 routes.get('/uploads', UploadIndexValidator, uploadsController.index);
 routes.post('/uploads', upload.single('file'), uploadsController.store);
 routes.patch('/uploads/:id', UploadUpdateValidator, uploadsController.update);
+routes.delete('/uploads/:id', uploadsController.destroy);
 
 // Storage
 routes.get('/storage', storageController.index);
