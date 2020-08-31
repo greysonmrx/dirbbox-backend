@@ -7,6 +7,9 @@ import UploadsController from './controllers/UploadsController';
 import StorageController from './controllers/StorageController';
 import PasswordController from './controllers/PasswordController';
 
+import UserStoreValidator from './validators/users/StoreValidator';
+import UserUpdateValidator from './validators/users/UpdateValidator';
+
 import ensureAuthenticated from './middleware/ensureAuthenticated';
 
 const routes = Router();
@@ -18,7 +21,7 @@ const storageController = new StorageController();
 const passwordControlller = new PasswordController();
 
 // Users
-routes.post('/users', usersController.store);
+routes.post('/users', UserStoreValidator, usersController.store);
 
 // Sessions
 routes.post('/sessions', sessionsController.store);
@@ -26,7 +29,7 @@ routes.post('/sessions', sessionsController.store);
 routes.use(ensureAuthenticated);
 
 // Users
-routes.put('/users', usersController.update);
+routes.put('/users', UserUpdateValidator, usersController.update);
 
 // Folders
 routes.get('/folders', foldersController.index);
