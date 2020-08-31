@@ -10,6 +10,8 @@ import PasswordController from './controllers/PasswordController';
 
 import UserStoreValidator from './validators/users/StoreValidator';
 import UserUpdateValidator from './validators/users/UpdateValidator';
+import UploadShowValidator from './validators/uploads/ShowValidator';
+import UploadIndexValidator from './validators/uploads/IndexValidator';
 
 import ensureAuthenticated from './middleware/ensureAuthenticated';
 
@@ -41,8 +43,8 @@ routes.get('/folders', foldersController.index);
 routes.post('/folders', foldersController.store);
 
 // Uploads
-routes.get('/uploads/:limit', uploadsController.show);
-routes.get('/uploads', uploadsController.index);
+routes.get('/uploads/:limit', UploadShowValidator, uploadsController.show);
+routes.get('/uploads', UploadIndexValidator, uploadsController.index);
 routes.post('/uploads', upload.single('file'), uploadsController.store);
 
 // Storage
