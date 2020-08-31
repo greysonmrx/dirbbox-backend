@@ -7,13 +7,20 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
       .integer('folder_id')
       .notNullable()
       .references('id')
-      .inTable('folders');
+      .inTable('folders')
+      .onDelete('CASCADE');
     table
       .integer('upload_id')
       .notNullable()
       .references('id')
-      .inTable('uploads');
-    table.integer('user_id').notNullable().references('id').inTable('users');
+      .inTable('uploads')
+      .onDelete('CASCADE');
+    table
+      .integer('user_id')
+      .notNullable()
+      .references('id')
+      .inTable('users')
+      .onDelete('CASCADE');
   });
 }
 

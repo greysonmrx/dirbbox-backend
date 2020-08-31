@@ -48,6 +48,7 @@ routes.put('/users', UserUpdateValidator, usersController.update);
 routes.get('/folders', foldersController.index);
 routes.post('/folders', FolderStoreValidator, foldersController.store);
 routes.put('/folders/:id', FolderUpdateValidator, foldersController.update);
+routes.delete('/folders/:id', foldersController.destroy);
 
 // Uploads
 routes.get('/uploads/:limit', UploadShowValidator, uploadsController.show);

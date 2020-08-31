@@ -84,6 +84,25 @@ class FoldersController {
 
     return response.status(200).json(folder);
   }
+
+  public async destroy(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const folderExists = await knex('folders').where('id', id).first();
+
+    if (!folderExists) {
+      return response.status(404).json({
+        message: 'Pasta não encontrada.',
+      });
+    }
+
+    await knex('folders').where('id', id).del();
+
+    return response.status(204).json();
+  }
 }
 
 export default FoldersController;
