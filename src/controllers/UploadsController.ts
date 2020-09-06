@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 
 import Upload from '../database/interfaces/Upload';
 
+import { getUploadType } from '../utils/getUploadTypes';
+
 import knex from '../database/connection';
 
 class UploadsController {
@@ -31,7 +33,7 @@ class UploadsController {
 
   public async store(request: Request, response: Response): Promise<Response> {
     const { folder_id } = request.body;
-    const { originalname: name, size } = request.file;
+    const { originalname: name, size, filename } = request.file;
 
     const folder = await knex('folders').where('id', folder_id).first();
 
@@ -43,13 +45,13 @@ class UploadsController {
 
     const trx = await knex.transaction();
 
-    const type = name.split('.')[1];
+    const type = getUploadType(name.split('.')[1]);
 
     const insertedIds = await trx('uploads').insert({
       name,
       type,
       size,
-      url: '',
+      url: `http://localhost:5000/uploads/${filename}`,
     });
 
     const uploadId = insertedIds[0];

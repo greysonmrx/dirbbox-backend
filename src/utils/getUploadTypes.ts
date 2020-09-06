@@ -31,4 +31,27 @@ function getDocumentTypes(): string[] {
   return ['docx', 'txt', 'tex', 'pdf', 'pptx'];
 }
 
-export { getProgrammingTypes, getImageTypes, getVideoTypes, getDocumentTypes };
+function getUploadType(type: string): string {
+  if (getProgrammingTypes().includes(type)) {
+    return 'programming';
+  }
+  if (getImageTypes().includes(type)) {
+    return 'image';
+  }
+  if (getVideoTypes().includes(type)) {
+    return 'video';
+  }
+  if (getDocumentTypes().includes(type)) {
+    return 'document';
+  }
+
+  return 'other';
+}
+
+export {
+  getProgrammingTypes,
+  getImageTypes,
+  getVideoTypes,
+  getDocumentTypes,
+  getUploadType,
+};

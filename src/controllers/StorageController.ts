@@ -2,13 +2,6 @@ import { Request, Response } from 'express';
 
 import User from '../database/interfaces/User';
 
-import {
-  getProgrammingTypes,
-  getImageTypes,
-  getVideoTypes,
-  getDocumentTypes,
-} from '../utils/getUploadTypes';
-
 import knex from '../database/connection';
 
 class StorageController {
@@ -18,38 +11,35 @@ class StorageController {
     const programmingUploads = (await knex('uploads')
       .join('folders_uploads', 'uploads.id', '=', 'folders_uploads.upload_id')
       .where('folders_uploads.user_id', request.user.id)
-      .whereIn('uploads.type', getProgrammingTypes())
+      .where('uploads.type', 'programming')
       .sum('uploads.size')
       .first()) as Record<string, number | null>;
 
     const imageUploads = (await knex('uploads')
       .join('folders_uploads', 'uploads.id', '=', 'folders_uploads.upload_id')
       .where('folders_uploads.user_id', request.user.id)
-      .whereIn('uploads.type', getImageTypes())
+      .where('uploads.type', 'image')
       .sum('uploads.size')
       .first()) as Record<string, number | null>;
 
     const videoUploads = (await knex('uploads')
       .join('folders_uploads', 'uploads.id', '=', 'folders_uploads.upload_id')
       .where('folders_uploads.user_id', request.user.id)
-      .whereIn('uploads.type', getVideoTypes())
+      .where('uploads.type', 'video')
       .sum('uploads.size')
       .first()) as Record<string, number | null>;
 
     const documentUploads = (await knex('uploads')
       .join('folders_uploads', 'uploads.id', '=', 'folders_uploads.upload_id')
       .where('folders_uploads.user_id', request.user.id)
-      .whereIn('uploads.type', getDocumentTypes())
+      .where('uploads.type', 'document')
       .sum('uploads.size')
       .first()) as Record<string, number | null>;
 
     const otherUploads = (await knex('uploads')
       .join('folders_uploads', 'uploads.id', '=', 'folders_uploads.upload_id')
       .where('folders_uploads.user_id', request.user.id)
-      .whereNotIn('uploads.type', getProgrammingTypes())
-      .whereNotIn('uploads.type', getImageTypes())
-      .whereNotIn('uploads.type', getVideoTypes())
-      .whereNotIn('uploads.type', getDocumentTypes())
+      .where('uploads.type', 'other')
       .sum('uploads.size')
       .first()) as Record<string, number | null>;
 
